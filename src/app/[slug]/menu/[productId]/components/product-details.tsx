@@ -24,7 +24,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
     };
 
     return (  
-        <div className="relative rounded-t-3xl py-5 mt-[-1.5rem] bg-white px-5 flex-auto flex-col">
+        <div className="relative rounded-t-3xl py-5 mt-[-1.5rem] bg-white px-5 flex flex-auto flex-col">
               
               <div className="flex-auto">
                   { /* Restaurant Info */ }
