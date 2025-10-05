@@ -1,7 +1,7 @@
 import { Product } from "@prisma/client";
 import Link from "next/link";
 import Image from "next/image";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { formatCurrency } from "@/helpers/format-currency";
 
 interface ProductsListProps {
@@ -10,10 +10,12 @@ interface ProductsListProps {
 
 const ProductsList = ({ products }: ProductsListProps) => {
     const {slug} = useParams<{slug: string}>();
+    const searchParams = useSearchParams();
+    const consumptionMethod = searchParams.get("consumptionMethod");
     return (
         <div className="space-y-3 px-4">
             {products.map((product) => (
-               <Link href={`/${slug}/menu/${product.id}`} key={product.id} className="flex items-center justify-between gap-10, py-3 border-b">
+               <Link href={`/${slug}/menu/${product.id}?consumptionMethod=${consumptionMethod}`} key={product.id} className="flex items-center justify-between gap-10, py-3 border-b">
                   <div>
                     <h3 className="text-sm font-medium">{product.name}</h3>
                     <p className="line-clamp-2 text-sm text-muted-foreground">{product.description}</p>

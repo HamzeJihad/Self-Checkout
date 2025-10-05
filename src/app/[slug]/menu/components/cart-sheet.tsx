@@ -6,16 +6,7 @@ import CartItem from "../[productId]/components/cart-items";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 
-import {
-    Drawer,
-    DrawerClose,
-    DrawerContent,
-    DrawerDescription,
-    DrawerFooter,
-    DrawerHeader,
-    DrawerTitle,
-    DrawerTrigger,
-} from "@/components/ui/drawer"
+
 import FinishOrderButton from "./finish-order-dialog";
 const CartSheet = () => {
     const { isOpen, toggleCart, products } = useContext(CartContext);

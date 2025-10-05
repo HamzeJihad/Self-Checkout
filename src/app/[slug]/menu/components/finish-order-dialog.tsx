@@ -26,6 +26,14 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { createOrder } from "../actions/create-order"
+import { useParams, useSearchParams } from "next/navigation"
+import { ConsumptionMethod } from "@prisma/client"
+import { useContext, useTransition } from "react"
+import { CartContext } from "../contexts/cart"
+import { on } from "events"
+import { toast } from "sonner"
+import { Loader2Icon } from "lucide-react"
 
 const formSchema = z.object({
     name: z.string().trim().min(3, { message: "O nome deve ter no mínimo 3 caracteres" }),
@@ -44,16 +52,38 @@ interface FinishOrderDialogProps {
 }
 
 const FinishOrderDialog = ({ isOpen, onOpenChange }: FinishOrderDialogProps) => {
+    const searchParams = useSearchParams();
+    const { products } = useContext(CartContext);
+    const { slug } = useParams<{ slug: string }>();
+    const [isPending, startTransition] = useTransition();
+
     const form = useForm<FormSchema>({
         resolver: zodResolver(formSchema),
         shouldUnregister: true,
     })
-    const onSubmit = (data: FormSchema) => {
-        console.log(data);
+    const onSubmit = async (data: FormSchema) => {
+        try {
+            const consumptionMethod = searchParams.get("consumptionMethod") as ConsumptionMethod;
+            startTransition(async () => {
+                await createOrder({
+                    customerName: data.name,
+                    customerCpf: data.cpf,
+                    consumptionMethod: consumptionMethod,
+                    slug: slug,
+                    products: products
+                });
+                onOpenChange(false);
+                toast.success("Pedido realizado com sucesso!");
+            });
+
+
+        } catch (error) {
+            console.log(error);
+        }
     }
     return (
         <Drawer open={isOpen} onOpenChange={onOpenChange}>
-            
+
             <DrawerContent>
                 <DrawerHeader>
                     <DrawerTitle>Confirmação de Pedido</DrawerTitle>
@@ -93,7 +123,10 @@ const FinishOrderDialog = ({ isOpen, onOpenChange }: FinishOrderDialogProps) => 
                             />
 
                             <DrawerFooter>
-                                <Button type="submit" className="w-full rounded-full">Confirmar</Button>
+                                <Button type="submit" className="w-full rounded-full" disabled={isPending}>
+                                    {isPending && <Loader2Icon className="mr-2 animate-spin" />}
+                                    Confirmar
+                                </Button>
                                 <DrawerClose asChild>
                                     <Button variant="outline" className="w-full rounded-full">Cancelar</Button>
                                 </DrawerClose>
