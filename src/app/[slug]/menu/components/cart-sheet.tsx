@@ -4,6 +4,7 @@ import { useContext } from "react";
 import { CartContext } from "../contexts/cart";
 import CartItem from "../[productId]/components/cart-items";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardTitle } from "@/components/ui/card";
 
 const CartSheet = () => {
     const { isOpen, toggleCart, products } = useContext(CartContext);
@@ -21,6 +22,21 @@ const CartSheet = () => {
                         <CartItem key={product.id} product={product} />
                     ))}
                    </div>
+                   <Card className="pt-4 mb-4">
+
+                       <CardContent>
+                        <div className="flex  justify-between ">
+                            <p className="text-sm text-muted-foreground">Total</p>
+                            <p className="text-sm font-semibold">
+                               {products.reduce((acc, product) => acc + product.price * product.quantity, 0).toLocaleString("pt-BR", {
+                                   style: "currency",
+                                   currency: "BRL"
+                               })}
+                           </p>
+                        </div>
+                           
+                       </CardContent>
+                   </Card>
 
                     <Button className="w-full rounded-full">Finalizar pedido</Button>
                 </div>
