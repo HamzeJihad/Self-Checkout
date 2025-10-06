@@ -60,6 +60,6 @@ export const createOrder = async (data: CreateOrderInput) => {
             customerCpf: removeCpfPunctuation(data.customerCpf),
         },
     });
-    redirect(`/${data.slug}/orders`);
+    redirect(`/${data.slug}/orders?cpf=${removeCpfPunctuation(data.customerCpf)}`);
 }
 
