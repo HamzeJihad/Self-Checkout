@@ -31,5 +31,5 @@ const ProductsList = ({ products }: ProductsListProps) => {
         </div>
     );
 }
- 
+
 export default ProductsList;

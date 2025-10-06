@@ -31,10 +31,10 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
         addProduct?.({...product, quantity});
         toggleCart();
     }
-    return (  
+    return (
         <>
         <div className="relative rounded-t-3xl py-5 mt-[-1.5rem] bg-white px-5 flex flex-auto flex-col  overflow-hidden">
-              
+
               <div className="flex-auto  overflow-hidden">
                   { /* Restaurant Info */ }
                 <div className="flex items-center gap-1">
@@ -46,7 +46,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
                 <h2 className="text-xl font-semibold mt-1">{product.name}</h2>
                 <div className="flex flex-items-center justify-between mt-2">
                     <h3 className="text-xl font-semibold">{formatCurrency(product.price)}</h3>
-                    
+
                     <div className="flex items-center gap-3">
                       <Button variant='outline' className="rounded-xl h-8 w-8" onClick={handleDecreaseQuantity}><ChevronLeftIcon /></Button>
                     <div className="w-4">{quantity}</div>
@@ -54,7 +54,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
 
                     </div>
                 </div>
-                
+
                <ScrollArea className="h-full">
                  { /* Product Description */ }
                 <div className="mt-4 space-y-2">
@@ -78,10 +78,10 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
 
                 <Button className="rounded-full w-full" onClick={handleAddToCart}>Adicionar à sacola</Button>
         </div>
-                        
+
             <CartSheet></CartSheet>
         </>
     );
 }
- 
+
 export default ProductDetails;
