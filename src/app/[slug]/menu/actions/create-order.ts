@@ -1,10 +1,11 @@
 'use server';
 
+import { ConsumptionMethod } from '@prisma/client';
+import { redirect } from 'next/navigation';
+
 import { getRestaurantBySlug } from '@/data/get-restaraunt-by-slug';
 import { removeCpfPunctuation } from '@/helpers/cpf';
 import { db } from '@/lib/prisma';
-import { ConsumptionMethod } from '@prisma/client';
-import { redirect } from 'next/navigation';
 
 interface CreateOrderInput {
     customerName: string;
@@ -29,7 +30,7 @@ export const createOrder = async (data: CreateOrderInput) => {
 
     const restaurant = await getRestaurantBySlug(data.slug);
 
-    const order = await db.order.create({
+   await db.order.create({
         data: {
             total: data.products.reduce((acc, product) => {
                 const productWithPrice = productsWithPrice.find((p) => p.id === product.id);

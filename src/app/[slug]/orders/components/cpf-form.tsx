@@ -1,10 +1,12 @@
 
 "use client"
-import { Button } from "@/components/ui/button"
-import z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { usePathname, useRouter } from "next/navigation"
+import { useForm } from "react-hook-form";
 import { PatternFormat } from "react-number-format"
+import z from "zod"
 
+import { Button } from "@/components/ui/button"
 import {
     Drawer,
     DrawerClose,
@@ -14,8 +16,6 @@ import {
     DrawerHeader,
     DrawerTitle,
 } from "@/components/ui/drawer"
-import { isValidCpf, removeCpfPunctuation } from "@/helpers/cpf";
-import { useForm } from "react-hook-form";
 import {
     Form,
     FormControl,
@@ -25,7 +25,7 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { usePathname, useRouter } from "next/navigation"
+import { isValidCpf, removeCpfPunctuation } from "@/helpers/cpf";
 
 const formSchema = z.object({
     cpf: z.string().trim().min(1, { message: "O CPF é obrigatório e deve ter 11 dígitos" }).refine((cpf) => {

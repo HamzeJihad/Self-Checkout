@@ -1,6 +1,8 @@
-import { getRestaurantBySlug } from "@/data/get-restaraunt-by-slug";
-import { notFound } from "next/navigation";
 import Image from "next/image";
+import { notFound } from "next/navigation";
+
+import { getRestaurantBySlug } from "@/data/get-restaraunt-by-slug";
+
 import ConsumptionMethodOption from "./components/src/app/[slug]/components/consumption-method-option";
 
 interface RestaurantPageProps {

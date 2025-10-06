@@ -1,10 +1,16 @@
 
 "use client"
-import { Button } from "@/components/ui/button"
-import z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { ConsumptionMethod } from "@prisma/client"
+import { Loader2Icon } from "lucide-react"
+import { useParams, useSearchParams } from "next/navigation"
+import { useContext, useTransition } from "react"
+import { useForm } from "react-hook-form";
 import { PatternFormat } from "react-number-format"
+import { toast } from "sonner"
+import z from "zod"
 
+import { Button } from "@/components/ui/button"
 import {
     Drawer,
     DrawerClose,
@@ -13,10 +19,7 @@ import {
     DrawerFooter,
     DrawerHeader,
     DrawerTitle,
-    DrawerTrigger,
 } from "@/components/ui/drawer"
-import { isValidCpf } from "@/helpers/cpf";
-import { useForm } from "react-hook-form";
 import {
     Form,
     FormControl,
@@ -26,13 +29,10 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { isValidCpf } from "@/helpers/cpf";
+
 import { createOrder } from "../actions/create-order"
-import { useParams, useSearchParams } from "next/navigation"
-import { ConsumptionMethod } from "@prisma/client"
-import { useContext, useTransition } from "react"
 import { CartContext } from "../contexts/cart"
-import { toast } from "sonner"
-import { Loader2Icon } from "lucide-react"
 
 const formSchema = z.object({
     name: z.string().trim().min(3, { message: "O nome deve ter no mínimo 3 caracteres" }),
