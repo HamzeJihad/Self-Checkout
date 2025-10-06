@@ -11,6 +11,8 @@ export interface CartProduct extends Product {
 export interface ICartContext {
     isOpen: boolean;
     products: CartProduct[];
+    total: number;
+    totalQuantity: number;
     toggleCart: () => void;
     addProduct?: (product: CartProduct) => void;
     decreaseProductQuantity?: (productId: string) => void;
@@ -22,6 +24,8 @@ export interface ICartContext {
 export const CartContext = createContext<ICartContext>({
     isOpen: false,
     products: [],
+    total: 0,
+    totalQuantity: 0,
     toggleCart: () => { },
     addProduct: () => { },
     decreaseProductQuantity: () => { },
@@ -36,6 +40,13 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     const toggleCart = () => {
         setIsOpen(!isOpen);
     };
+
+    const total = products.reduce((acc, product) => {
+        return acc + product.price * product.quantity;
+    }, 0);
+    const totalQuantity = products.reduce((acc, product) => {
+        return acc + product.quantity;
+    }, 0);
 
     const addProduct = (product: CartProduct) => {
         setProducts((prev) => {
@@ -60,7 +71,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     }
 
     const increaseProductQuantity = (productId: string) => {
-      setProducts((prev) => {
+        setProducts((prev) => {
             const existingProduct = prev.find((p) => p.id === productId);
             if (existingProduct) {
                 return prev.map((p) => p.id === productId ? { ...p, quantity: p.quantity + 1 } : p);
@@ -73,17 +84,19 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     const removeProduct = (productId: string) => {
         setProducts((prev) => prev.filter((p) => p.id !== productId));
     }
-        return (
-            <CartContext.Provider value={{
-                isOpen,
-                products,
-                toggleCart,
-                addProduct,
-                decreaseProductQuantity,
-                increaseProductQuantity,
-                removeProduct
-            }}>
-                {children}
-            </CartContext.Provider>
-        );
-    }
+    return (
+        <CartContext.Provider value={{
+            isOpen,
+            products,
+            total,
+            totalQuantity,
+            toggleCart,
+            addProduct,
+            decreaseProductQuantity,
+            increaseProductQuantity,
+            removeProduct
+        }}>
+            {children}
+        </CartContext.Provider>
+    );
+}
