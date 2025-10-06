@@ -4,6 +4,7 @@ import { getRestaurantBySlug } from '@/data/get-restaraunt-by-slug';
 import { removeCpfPunctuation } from '@/helpers/cpf';
 import { db } from '@/lib/prisma';
 import { ConsumptionMethod } from '@prisma/client';
+import { redirect } from 'next/navigation';
 
 interface CreateOrderInput {
     customerName: string;
@@ -59,7 +60,6 @@ export const createOrder = async (data: CreateOrderInput) => {
             customerCpf: removeCpfPunctuation(data.customerCpf),
         },
     });
-
-    return order;
+    redirect(`/${data.slug}/orders`);
 }
 

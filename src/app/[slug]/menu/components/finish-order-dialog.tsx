@@ -31,7 +31,6 @@ import { useParams, useSearchParams } from "next/navigation"
 import { ConsumptionMethod } from "@prisma/client"
 import { useContext, useTransition } from "react"
 import { CartContext } from "../contexts/cart"
-import { on } from "events"
 import { toast } from "sonner"
 import { Loader2Icon } from "lucide-react"
 
