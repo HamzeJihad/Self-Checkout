@@ -1,8 +1,8 @@
 'use server';
 
 import { ConsumptionMethod } from '@prisma/client';
-import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
 
 import { getRestaurantBySlug } from '@/data/get-restaraunt-by-slug';
 import { removeCpfPunctuation } from '@/helpers/cpf';
