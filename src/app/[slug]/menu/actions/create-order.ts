@@ -6,6 +6,7 @@ import { redirect } from 'next/navigation';
 import { getRestaurantBySlug } from '@/data/get-restaraunt-by-slug';
 import { removeCpfPunctuation } from '@/helpers/cpf';
 import { db } from '@/lib/prisma';
+import { revalidatePath } from 'next/cache';
 
 interface CreateOrderInput {
     customerName: string;
@@ -61,6 +62,7 @@ export const createOrder = async (data: CreateOrderInput) => {
             customerCpf: removeCpfPunctuation(data.customerCpf),
         },
     });
+    revalidatePath(`/${data.slug}/orders`);
     redirect(`/${data.slug}/orders?cpf=${removeCpfPunctuation(data.customerCpf)}`);
 }
 
